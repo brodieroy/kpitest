@@ -1,0 +1,4044 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/snippet.css" />
+	<script type="text/javascript" src="../scripts/snippet.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/common.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/core.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/search.js" charset="utf-8"></script>
+
+	<title>Managing UI Component Attributes in layout.xml</title>
+</head>
+
+ <body onload="prettyPrint()" style="overflow: auto;">
+
+ <div id="toc-navigation">
+	<div id="profile">
+		<p><img alt="Mobile native" src="../images/mobile_s_n.png"/> <img alt="Wearable native" src="../images/wearable_s_n.png"/></p>
+	</div>
+
+	<div id="toc_border"><div id="toc">
+		<p class="toc-title">Dependencies</p>
+		<ul class="toc">
+			<li>Tizen Studio 1.0 and Higher</li>
+		</ul>
+		<p class="toc-title">Content</p>
+		<ul class="toc">
+			<li><a href="#hierarchy">Element Hierarchy of the layout.xml File</a></li>
+			<li><a href="#attributes">Attributes for Multiple Screens</a></li>
+			<li><a href="#palette">Palette of the Native UI Builder</a></li>
+			<li><a href="#common_attributes">Component Attributes – Common</a></li>
+			<li><a href="#container_attributes">Component Attributes – UI Container</a></li>
+			<li><a href="#component_attributes">Component Attributes – UI Component</a></li>
+		</ul>
+		<p class="toc-title">Related Info</p>
+		<ul class="toc">
+			<li><a href="ui_builder_n.htm">Building UIs with Components</a></li>
+			<li><a href="multiple_screen_n.htm">Supporting a UI for Multiple Screens</a></li>
+		</ul>
+	</div>
+</div></div>
+
+<div id="container"><div id="contents"><div class="content">
+ <h1>Managing UI Component Attributes in layout.xml</h1>
+
+<p>This document describes the meta schema of the <code>layout.xml</code> file, which can be used in the native UI Builder. You can edit the <code>layout.xml</code> file through the <a href="ui_builder_n.htm">Source tab</a> of the UI Builder.</p>
+
+<h2 id="hierarchy">Element Hierarchy of the layout.xml File</h2>
+
+<p>The <code>layout.xml</code> file has a hierarchical organization, which consists of XML elements. The tree structure in the following figure shows the relationship between the elements of the <code>layout.xml</code> file.</p>
+
+<p align="center"><strong>Figure: Elements in the layout.xml file</strong></p>
+<p align="center"><img alt="Elements in the layout.xml file" src="../images/component_attributes_layout_xml_elements.png"/></p>
+
+<p>The following example illustrates the content and structure of the <code>layout.xml</code> file. The usage format is <code>&lt;attribute_name=value&gt;</code>.</p>
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+&lt;document&gt;
+    &lt;mscreen&gt;
+        &lt;configuration device="HD" id="config1" name="common" orientation="portrait" type="common"/&gt;
+        &lt;configuration orientation="landscape" name="sd" id="configuration1" type="specific" device="HD"/&gt;
+    &lt;/mscreen&gt;
+    &lt;views startup="view1"&gt;
+        &lt;view id="view1" indicator="true" screen_orientation="full_sensor" type="view"&gt;
+            &lt;grid align_h="fill" vsize_w="1000" align_v="fill" visible="true" weight_v="1"
+                  id="grid1" weight_h="1" vsize_h="1000"&gt;
+                &lt;button align_v="fill" visible="true" weight_v="1" pack_h="49" weight_h="1" align_h="fill"
+                        pack_w="210" disable="false" pack_x="406" pack_y="219" style="default" id="button1" text="Button"&gt;
+                    &lt;event connection_wrapper="connection_view1_button1_onclicked"
+                           function_name="view1_button1_onclicked" signal="clicked" target="view2"/&gt;
+                    &lt;variation config_ref="configuration1" visible="true" pack_w="210" pack_x="515"
+                               pack_h="49" pack_y="753"/&gt;
+                &lt;/button&gt;
+            &lt;/grid&gt;
+        &lt;/view&gt;
+        &lt;view indicator="true" screen_orientation="full_sensor" id="view2" type="view"&gt;&lt;/view&gt;
+    &lt;/views&gt;
+&lt;/document&gt;
+</pre>
+
+<h2 id="attributes">Attributes for Multiple Screens</h2>
+
+<p>The multiple screen feature is intended for creating an application that works in various screen sizes and densities. For more information, see <a href="multiple_screen_n.htm">Supporting Multiple Screens</a>.</p>
+
+<h3>Configuration</h3>
+
+<p>The <code>&lt;configuration&gt;</code> element represents a specific screen configuration, as shown in the following example:</p>
+
+<pre class="prettyprint">
+&lt;mscreen&gt;
+   &lt;configuration device="HD" id="config1" name="common" orientation="portrait" type="common"/&gt;
+&lt;/mscreen&gt;
+</pre>
+
+<p>The <code>&lt;configuration&gt;</code> element is placed as a child of the <code>&lt;mscreen&gt;</code> element. The following attributes are used for all configurations.</p>
+
+<p align="center" class="Table"><strong>Table: Common configuration attributes</strong></p>
+<table>
+<tbody>
+<tr>
+	<th>Attribute</th>
+	<th>Value</th>
+ </tr>
+ <tr>
+	<td><code>id</code></td>
+	<td>Identification for the configuration</td>
+ </tr>
+ <tr>
+	<td><code>name</code></td>
+	<td>Name of the display</td>
+ </tr>
+ <tr>
+	<td><code>type</code></td>
+	<td>Whether the configuration is <code>specific</code> or <code>common</code></td>
+ </tr>
+ <tr>
+	<td><code>device</code></td>
+	<td>Supported device:
+	<ul>
+	<li>Mobile: <code>HD</code>, <code>WVGA</code></li>
+	<li>Wearable square: <code>SQUARE_320x320</code></li>
+	<li>Wearable circle: <code>CIRCLE_360x360</code></li>
+	</ul>
+	</td>
+ </tr>
+ <tr>
+	<td><code>orientation</code></td>
+	<td><code>portrait</code> or <code>landscape</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Variation</h3>
+
+<p>The <code>&lt;variation&gt;</code> element represents a set of the variation properties. The following is an example:</p>
+
+<pre class="prettyprint">
+&lt;button align_v="fill" visible="true" weight_v="1" pack_h="49" weight_h="1"
+        align_h="fill" pack_w="210" disable="false" pack_x="406"
+        pack_y="219" style="default" id="button1" text="Button"&gt;
+    &lt;variation config_ref="configuration1" visible="true" pack_w="210" pack_x="515" pack_h="49" pack_y="753"/&gt;
+&lt;/button&gt;
+</pre>
+
+<p>The <code>&lt;variation&gt;</code> element is placed as a child of the <code>&lt;UI component&gt;</code> element. The <code>&lt;variation&gt;</code> element has <code>visible</code> and <code>pack</code> attributes. The value of the <code>pack</code> attribute depends on the parent container of the UI component. The following attributes are used for all variations.</p>
+<p align="center" class="Table"><strong>Table: Variation attributes</strong></p>
+<table>
+<tbody>
+<tr>
+	<th>Attribute</th>
+	<th>Value</th>
+ </tr>
+ <tr>
+	<td><code>config_ref</code></td>
+	<td>Screen configuration ID</td>
+ </tr>
+ <tr>
+	<td><code>visible</code></td>
+	<td><code>true</code> or <code>false</code></td>
+ </tr>
+ <tr>
+	<td><code>pack_x, pack_y, pack_w, pack_h</code></td>
+	<td>Absolute coordinates when the parent container is a grid.
+	<p>0 ~</p>
+</td>
+ </tr>
+ <tr>
+	<td><code>pack_col, pack_row, row_span, col_span</code></td>
+	<td>Position when the parent container is a table.
+	<p><code>pack_col/pack_row</code>: 0 ~</p>
+	<p><code>row_span/col_span</code>: 1 ~</p></td>
+ </tr>
+ <tr>
+	<td><code>pack</code></td>
+	<td>Position when the parent container is a panes.
+	<p><code>left</code> or <code>right</code></p></td>
+ </tr>
+</tbody>
+</table>
+
+<h2 id="palette">Palette of the Native UI Builder</h2>
+
+<p>By using various UI containers and components in the <strong>Palette</strong> of the native UI Builder, you can create your application UI layout. Each component can be set in various styles. For a detailed list of component styles, see the related guides (<a href="../../../org.tizen.guides/html/native/ui/efl/ui_components_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/ui_components_wn.htm">wearable</a>).</p>
+
+<p align="center"><strong>Figure: Native UI Builder Palette</strong></p>
+<p align="center"><img alt="Native UI Builder Palette" src="../images/component_attributes_native_palette.png" /></p>
+
+<h2 id="common_attributes">Component Attributes – Common</h2>
+
+<p>The following attributes are used for all UI components.</p>
+
+<p align="center" class="Table"><strong>Table: Common component attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>align_h</code></td>
+ <td><code>left, right, center, 0 ~ 1.0</code></td>
+ <td><code>evas_object_size_hint_align_set()</code></td>
+ </tr>
+<tr>
+ <td><code>align_v</code></td>
+ <td><code>top, bottom, center, 0 ~ 1.0</code></td>
+ <td><code>evas_object_size_hint_align_set()</code></td>
+ </tr>
+<tr>
+ <td><code>weight_h</code> or <code>eight_v</code></td>
+ <td><code>0 ~ 1.0</code></td>
+ <td><code>evas_object_size_hint_weight_set()</code></td>
+ </tr>
+ </tbody>
+ </table>
+
+<p>Some UI component attributes depend on the type of the UI container. For example, if the <code>&lt;button&gt;</code> element is a child of a <code>&lt;grid&gt;</code> element, the <code>&lt;button&gt;</code> element must have <code>pack_x</code>, <code>pack_y</code>, <code>pack_w</code>, and <code>pack_h</code> attributes.</p>
+
+<p align="center" class="Table"><strong>Table: Specific component attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>UI container</th>
+ <th>Attribute</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td>Grid</td>
+ <td><code>pack_x, pack_y, pack_w, pack_h</code></td>
+ <td><code>elm_grid_pack()</code></td>
+ </tr>
+<tr>
+ <td>Table</td>
+ <td><code>pack_col, pack_row, row_span, col_span</code></td>
+ <td><code>elm_table_pack()</code></td>
+ </tr>
+<tr>
+ <td>Panes</td>
+ <td><code>pack</code></td>
+ <td><code>elm_object_part_content_set()</code></td>
+ </tr>
+ </tbody>
+ </table>
+
+<h3>Event</h3>
+
+<p>An <code>&lt;event&gt;</code> element represents a set of the event attributes. The following is an example:</p>
+
+<pre class="prettyprint">
+&lt;button align_v="fill" visible="true" weight_v="1" pack_h="49" weight_h="1"
+        align_h="fill" pack_w="210" disable="false" pack_x="406"
+        pack_y="219" style="default" id="button1" text="Button"&gt;
+    &lt;event connection_wrapper="connection_view1_button1_onclicked" function_name="view1_button1_onclicked"
+           signal="clicked" target="view2"/&gt;
+&lt;/button&gt;
+</pre>
+
+<p>The <code>&lt;event&gt;</code> element is placed as a child of the <code>&lt;UI component&gt;</code> element.</p>
+<p>The following attributes are used for all <code>&lt;event&gt;</code> elements.</p>
+
+<p align="center" class="Table"><strong>Table: Event attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ </tr>
+ <tr>
+ <td><code>function_name</code></td>
+ <td>Name of the function</td>
+ </tr>
+ <tr>
+ <td><code>signal</code></td>
+ <td>Unique component signal; see the component documentation for details</td>
+ </tr>
+  <tr>
+ <td><code>connection_wrapper</code></td>
+ <td>Connection wrapper function's name</td>
+ </tr>
+  <tr>
+  <td><code>target</code></td>
+  <td>Target view ID to transform</td>
+  </tr>
+ </tbody>
+ </table>
+
+<h2 id="container_attributes">Component Attributes – UI Container</h2>
+
+<p>The <a href="../../../org.tizen.guides/html/native/ui/efl/ui_layouts_n.htm#ui_container">&lt;UI container&gt;</a> is an element that has the <code>&lt;UI component&gt;</code> elements as children. In the <code>layout.xml</code> file, containers, such as View, Box, Grid, Panel, Panes, Scroller, and Table, are supported.</p>
+
+<h3>View</h3>
+
+<p>A <code>&lt;view&gt;</code> element is a basic unit that represents a layout of the application UI. It contains a <code>&lt;UI container&gt;</code> component as a child.</p>
+<p>The following attributes are used for <code>&lt;view&gt;</code> element.</p>
+
+<p align="center" class="Table"><strong>Table: View attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ </tr>
+ <tr>
+ <td><code>indicator</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ </tr>
+  <tr>
+ <td><code>screen_orientation</code></td>
+ <td><code>no_sensor</code>, <code>only_portrait</code>, <code>only_landscape</code>, or <code>full_sensor</code></td>
+ </tr>
+  <tr>
+  <td><code>type</code></td>
+  <td><code>view</code> or <code>popup</code></td>
+  </tr>
+ </tbody>
+ </table>
+
+<h3>Box (<img alt="Box" src="../images/component_attributes_box_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/container_box_n.htm">box</a> is a basic and simple EFL container.</p>
+<pre class="prettyprint">
+&lt;box homogeneous="false" align_h="fill" align_v="fill" visible="true" weight_v="1" padding_v="0"
+     id="box2" padding_h="0" weight_h="1" direction="vertical"&gt;
+&lt;/box&gt;
+</pre>
+
+<p>The following attributes are used for the box container.</p>
+
+<p align="center" class="Table"><strong>Table: Box attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_box_add()</code></td>
+ </tr>
+<tr>
+ <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code></td>
+ <td><code>elm_box_horizontal_set()</code></td>
+ </tr>
+<tr>
+ <td><code>homogeneous</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_box_homogeneous_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>padding_h</code> or <code>padding_v</code></td>
+ <td><code>0</code></td>
+ <td><code>elm_box_padding_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+ </table>
+
+ <h3>Grid (<img alt="Grid" src="../images/component_attributes_grid_icon.png"/>)</h3>
+
+<p>In a <a href="../../../org.tizen.guides/html/native/ui/efl/container_grid_n.htm">grid</a> container, objects are placed at specific positions along a fixed grid.</p>
+<pre class="prettyprint">
+&lt;grid align_h="fill" vsize_w="1000" align_v="fill" visible="true" weight_v="1"
+      id="grid1" weight_h="1" vsize_h="1000"&gt;
+    &lt;button align_v="fill" visible="true" weight_v="1" pack_h="48" weight_h="1" align_h="fill"
+            pack_w="210" disable="false" pack_x="365" pack_y="197" style="default" id="button1" text="Button"&gt;
+    &lt;/button&gt;
+&lt;/grid&gt;
+</pre>
+
+<p>The child element of the grid container has the <code>pack_w</code>, <code>pack_h</code>, <code>pack_x</code>, and <code>pack_y</code> attributes to indicate the positions in the grid. The following attributes are used for the grid container.</p>
+
+<p align="center" class="Table"><strong>Table: Grid attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_grid_add()</code></td>
+ </tr>
+<tr>
+ <td><code>vsize_w</code></td>
+ <td>0 ~</td>
+ <td><code>elm_grid_size_set()</code></td>
+ </tr>
+<tr>
+ <td><code>vsize_h</code></td>
+ <td>0 ~</td>
+ <td><code>elm_grid_size_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+ </table>
+
+<h3>Panel (<img alt="Panel" src="../images/component_attributes_panel_icon.png"/>) in Mobile Applications</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_panel_mn.htm">panel</a> container is an animated object that contains child objects. It can be expanded or collapsed by clicking the button on its edge.</p>
+<pre class="prettyprint">
+&lt;panel align_h="fill" align_v="fill" visible="true" orient="top" hidden="false" weight_v="1"
+       id="panel1" weight_h="1"&gt;
+&lt;/panel&gt;
+</pre>
+
+<p>The following attributes are used for the panel container.</p>
+
+<p align="center" class="Table"><strong>Table: Panel attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_panel_add()</code></td>
+ </tr>
+<tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>orient</code></td>
+ <td><code>top</code>, <code>bottom</code>, <code>left</code>, or <code>right</code></td>
+ <td><code>elm_panel_orient_set()</code></td>
+ </tr>
+<tr>
+ <td><code>hidden</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_panel_hidden_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Panes (<img alt="Panes" src="../images/component_attributes_panes_icon.png"/>) in Mobile Applications</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/container_panes_mn.htm">panes</a> container adds a draggable bar between 2 sections of content. The sections are resized when the bar is dragged.</p>
+
+<pre class="prettyprint">
+&lt;panes align_h="fill" align_v="fill" visible="true" weight_v="1" fixed="false" id="panes1"
+       weight_h="1" right_size="0.5" direction="vertical"&gt;
+    &lt;button align_h="fill" align_v="fill" visible="true" weight_v="1" disable="false" style="default"
+            id="button1" text="Button" weight_h="1" pack="left"&gt;
+    &lt;/button&gt;
+    &lt;button align_h="fill" align_v="fill" visible="true" weight_v="1" disable="false" style="default"
+            id="button2" text="Button" weight_h="1" pack="right"&gt;
+    &lt;/button&gt;
+&lt;/panes&gt;
+</pre>
+
+<p>The child element of the panes container has the <code>pack</code> attribute to indicate the positions in the panes. The following attributes are used for the panes container.</p>
+
+<p align="center" class="Table"><strong>Table: Panes attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_panes_add()</code></td>
+ </tr>
+<tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code></td>
+ <td><code>elm_panes_horizontal_set()</code></td>
+ </tr>
+<tr>
+ <td><code>fixed</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_panes_fixed_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>right_size</code></td>
+ <td>0 ~ 1</td>
+ <td><code>elm_panes_content_right_size_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Scroller (<img alt="Scroller" src="../images/component_attributes_scroller_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/container_scroller_n.htm">scroller</a> container holds (and clips) a single object and allows you to scroll across it.</p>
+
+<pre class="prettyprint">
+&lt;scroller scrollbar_v="auto" align_v="fill" visible="true" weight_v="1" pack_h="123"
+          content_min_h="false" weight_h="1" scrollbar_h="auto" align_h="fill" propagate_events="true"
+          pack_w="276" pack_x="v433" pack_y="173" style="default" id="scroller1" content_min_w="false"&gt;
+&lt;/scroller&gt;
+</pre>
+
+<p>The following attributes are used for the scroller container.</p>
+
+<p align="center" class="Table"><strong>Table: Scroller attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_scroller_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+<tr>
+ <td><code>content_min_w</code> or <code>content_min_h</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_scroller_content_min_limit()</code></td>
+ </tr>
+ <tr>
+ <td><code>propagate_events</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_scroller_propagate_events_set()</code></td>
+ </tr>
+<tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>scrollbar_h</code> or <code>scrollbar_v</code></td>
+ <td><code>auto</code>, <code>true</code>, or <code>false</code></td>
+ <td><code>elm_scroller_policy_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Table (<img alt="Table" src="../images/component_attributes_table_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/container_table_n.htm">table</a> container is like the box but with 2 dimensions.</p>
+
+<pre class="prettyprint">
+&lt;table align_v="fill" visible="true" weight_v="1" pack_h="244" padding_h="0" weight_h="1" rows="2"
+       homogeneous="false" align_h="fill" pack_w="417" pack_x="164" pack_y="166" padding_v="0" id="table1" cols="2"&gt;
+    &lt;button align_v="fill" visible="true" weight_v="1" weight_h="1" col_span="1" align_h="fill"
+            pack_row="0" row_span="1" disable="false" style="default" pack_col="1" id="button2" text="Button"&gt;
+    &lt;/button&gt;
+&lt;/table&gt;
+</pre>
+
+<p>The child element of the table container has the <code>pack_col</code>, <code>pack_row</code>, <code>row_span</code>, and <code>col_span</code> attributes to indicate the position in the table. The following attributes are used for the table container.</p>
+
+<p align="center" class="Table"><strong>Table: Table attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_table_add()</code></td>
+ </tr>
+<tr>
+ <td><code>homogeneous</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_table_homogeneous_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>padding_h</code> or <code>padding_v</code></td>
+ <td>0 ~ 50</td>
+ <td><code>elm_table_padding_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>cols</code> or <code>rows</code></td>
+ <td>1 ~ 10</td>
+ <td><code>elm_table_pack()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h2 id="component_attributes">Component Attributes – UI Component</h2>
+
+<h3>Background (<img alt="Background" src="../images/component_attributes_background_icon.png"/>)</h3>
+
+<p>A background component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_background_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_background_wn.htm">wearable</a> applications) is used to set a solid background decoration to a window or a container object. It works like an image, but has some background-specific properties, such as setting it to a tiled, centered, scaled, or stretched mode.</p>
+
+<pre class="prettyprint">
+&lt;bg align_v="fill" visible="true" color="" src="" weight_v="1" pack_h="162" weight_h="1" align_h="fill"
+    pack_w="278" pack_x="338" pack_y="244" id="bg1" option="scale"&gt;
+&lt;/bg&gt;
+</pre>
+
+<p>The following attributes are used for the background component.</p>
+
+<p align="center" class="Table"><strong>Table: Background attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_bg_add()</code></td>
+ </tr>
+<tr>
+ <td><code>option</code></td>
+ <td><code>center</code>, <code>scale</code>, <code>stretch</code>, or <code>tile</code></td>
+ <td><code>elm_bg_option_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>color</code></td>
+ <td><code>#000000 ~ #ffffff</code></td>
+ <td><code>elm_bg_color_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>src</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_bg_file_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+  </tbody>
+</table>
+
+<h3>Button (<img alt="Button" src="../images/component_attributes_button_icon.png"/>)</h3>
+
+<p>A button component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_button_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_button_wn.htm">wearable</a> applications) is a simple push button. It is composed of a label icon and an icon object, and has an auto-repeat feature.</p>
+
+<pre class="prettyprint">
+&lt;button align_v="fill" visible="true" weight_v="1" pack_h="49" weight_h="1" align_h="fill" pack_w="210"
+        disable="false" pack_x="290" pack_y="364" style="default" id="button1" text="Button"&gt;
+&lt;/button&gt;
+</pre>
+
+<p>The following attributes are used for the button component.</p>
+
+<p align="center" class="Table"><strong>Table: Button attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_button_add()</code></td>
+ </tr>
+<tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_object_text_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Calendar (<img alt="Calendar" src="../images/component_attributes_calendar_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_calendar_mn.htm">calendar</a> component displays and manipulates month views. <strong>(Since 2.4, this component is supported in mobile applications only.)</strong></p>
+
+<pre class="prettyprint">
+&lt;calendar align_v="fill" visible="true" weight_v="1" pack_h="365" weight_h="1" max_year="-1"
+          align_h="fill" select_mode="default" pack_w="668" disable="false" pack_x="207" pack_y="247"
+          interval="0.85" id="calendar1" min_year="1902"&gt;
+&lt;/calendar&gt;
+</pre>
+
+<p>The following attributes are used for the calendar component.</p>
+
+<p align="center" class="Table"><strong>Table: Calendar attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_calendar_add()</code></td>
+ </tr>
+<tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>min_year</code> or <code>max_year</code></td>
+ <td><code>integer</code></td>
+ <td><code>elm_calendar_min_max_year_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>select_mode</code></td>
+ <td><code>default</code>, <code>always</code>, <code>none</code>, or <code>ondemand</code></td>
+ <td><code>elm_calendar_select_mode_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>interval</code></td>
+ <td><code>double</code></td>
+ <td><code>elm_calendar_interval_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Check (<img alt="Check" src="../images/component_attributes_check_icon.png"/>)</h3>
+
+<p>A check component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_check_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_check_wn.htm">wearable</a> applications) toggles the Boolean value between <code>true</code> and <code>false</code>.</p>
+
+<pre class="prettyprint">
+&lt;check align_v="fill" visible="true" weight_v="1" pack_h="48" weight_h="1" align_h="fill" pack_w="208"
+       disable="false" pack_x="429" pack_y="356" style="default" id="check1" text="Check" state="false"&gt;
+&lt;/check&gt;
+</pre>
+
+<p>The following attributes are used for the check component.</p>
+
+<p align="center" class="Table"><strong>Table: Check attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_check_add()</code></td>
+ </tr>
+<tr>
+ <td><code>state</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_check_state_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_text_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Colorselector (<img alt="Colorselector" src="../images/component_attributes_colorselector_icon.png"/>) in Mobile Applications</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_colorselector_mn.htm">colorselector</a> component provides a color selection solution to the user. It has different modes, each of them showing a different configuration of selectable colors.</p>
+
+<pre class="prettyprint">
+&lt;colorselector align_h="fill" align_v="fill" visible="true" weight_v="1" pack_w="667" pack_x="386"
+               pack_h="131" pack_y="565" id="colorselector1" weight_h="1"&gt;
+&lt;/colorselector&gt;
+</pre>
+
+<p>The following attributes are used for the colorselector component.</p>
+
+<p align="center" class="Table"><strong>Table: Colorselector attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_colorselector_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Ctxpopup</h3>
+
+<p>A ctxpopup component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_ctxpopup_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_ctxpopup_wn.htm">wearable</a> applications) is a contextual popup that shows a small list of items.</p>
+
+<pre class="prettyprint">
+&lt;view indicator="true" screen_orientation="full_sensor" id="view2" type="popup"&gt;
+    &lt;ctxpopup align_h="fill" align_v="fill" visible="true" weight_v="1" disable="false"
+              id="ctxpopup1" weight_h="1" direction="vertical"&gt;
+        &lt;ctxpopupitem id="ctxpopupitem1" text="CtxPopupItem"&gt;&lt;/ctxpopupitem&gt;
+    &lt;ctxpopupitem id="ctxpopupitem2" text="CtxPopupItem"&gt;&lt;/ctxpopupitem&gt;
+    &lt;/ctxpopup&gt;
+&lt;/view&gt;
+</pre>
+
+<p>The <code>&lt;ctxpopup&gt;</code> element must be placed as a child of the <code>&lt;view&gt;</code> element, and the <code>type</code> attribute in the view must be <code>popup</code>. The following attributes are used for the ctxpopup component.</p>
+
+<p align="center" class="Table"><strong>Table: Ctxpopup attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_ctxpopup_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code></td>
+ <td><code>elm_ctxpopup_horizontal_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Ctxpopupitem</h3>
+
+<p>A ctxpopup item component can be placed as a child of the ctxpopup component. Each item can have a label, an icon, or both. The following attributes are used for the ctxpopup item component.</p>
+
+<p align="center" class="Table"><strong>Table: Ctxpopup item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_ctxpopup_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_ctxpopup_item_append()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Datetime (<img alt="Datetime" src="../images/component_attributes_datetime_icon.png"/>)</h3>
+
+<p>A datetime component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_datetime_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_datetime_wn.htm">wearable</a> applications) can display and accept input for date and time values.</p>
+
+<pre class="prettyprint">
+&lt;datetime align_h="fill" align_v="fill" visible="true" weight_v="1" pack_w="528" disable="false" pack_x="232"
+          pack_h="171" pack_y="433" style="default" id="datetime1" weight_h="1"&gt;
+&lt;/datetime&gt;
+</pre>
+
+<p>The following attributes are used for the datetime component.</p>
+
+<p align="center" class="Table"><strong>Table: Datetime attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_datetime_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Entry (<img alt="Entry" src="../images/component_attributes_entry_icon.png"/>)</h3>
+
+<p>An entry component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_entry_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_entry_wn.htm">wearable</a> applications) is a box to which the user can enter text.</p>
+
+<pre class="prettyprint">
+&lt;entry context_menu="true" align_v="fill" visible="true" src="" weight_v="1" editable="true" pack_h="82"
+       scroll="false" weight_h="1" single_line="false" align_h="fill" password="false"
+       file_text_format="plain_utf8" pack_w="208" disable="false" pack_x="289" pack_y="268"
+       id="entry1" text="Entry"&gt;
+&lt;/entry&gt;
+</pre>
+
+<p>The following attributes are used for the entry component.</p>
+
+<p align="center" class="Table"><strong>Table: Entry attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_entry_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>scroll</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_entry_scrollable_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>single_line</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_entry_single_line_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>password</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_entry_password_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>editable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_entry_editable_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>context_menu</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_entry_context_menu_disabled_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>file_text_format</code></td>
+ <td><code>plain_utf8</code> or <code>markup_utf8</code></td>
+ <td><code>elm_entry_file_text_format_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_object_text_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>src</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_entry_file_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Flipselector (<img alt="Flipselector" src="../images/component_attributes_flipselector_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_flipselector_mn.htm">flipselector</a> component shows a set of text items one at a time. The user can flip the selector up or down to change the text on it. It can contain a small number of items. <strong>(Since 2.4, this component is supported in mobile applications only.)</strong></p>
+
+<pre class="prettyprint">
+&lt;flipselector align_h="fill" align_v="fill" visible="true" weight_v="1" pack_w="196" disable="false" pack_x="210"
+              pack_h="146" pack_y="312" id="flipselector1" weight_h="1"&gt;
+    &lt;flipselectoritem id="flipselectoritem1" text="item"&gt;&lt;/flipselectoritem&gt;
+&lt;/flipselector&gt;
+</pre>
+
+<p>The following attributes are used for the flipselector component.</p>
+
+<p align="center" class="Table"><strong>Table: Flipselector attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_flipselector_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Flipselectoritem</h3>
+
+<p>A flipselector item component can be placed as a child of the flipselector container. Each item can have a label. <strong>(Since 2.4, this component is supported in mobile applications only.)</strong></p>
+
+<p align="center" class="Table"><strong>Table: Flipselector item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_flipselector_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_flipselector_item_append()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Gengrid (<img alt="Gengrid" src="../images/component_attributes_gengrid_icon.png"/>) in Mobile Applications</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_gengrid_mn.htm">gengrid</a> component displays objects on a grid layout and renders only the visible objects. The gengrid can contain a small number of items.</p>
+
+<pre class="prettyprint">
+&lt;gengrid scrollbar_v="auto" align_v="fill" visible="true" weight_v="1" pack_h="324" item_size_w="200"
+         weight_h="1" scrollbar_h="auto" align_h="fill" select_mode="default" multi_select="false"
+         item_size_h="200" pack_w="554" disable="false" pack_x="206" pack_y="316" style="default"
+         id="gengrid1" direction="vertical"&gt;
+    &lt;gengriditem src="" style="default" disabled="false" id="gengriditem1"
+                 text="item" selected="false"&gt;&lt;/gengriditem&gt;
+    &lt;gengriditem src="" style="default" disabled="false" id="gengriditem2"
+                 text="item" selected="false"&gt;&lt;/gengriditem&gt;
+&lt;/gengrid&gt;
+</pre>
+
+<p>The following attributes are used for the gengrid component.</p>
+
+<p align="center" class="Table"><strong>Table: Gengrid attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_gengrid_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>select_mode</code></td>
+ <td><code>default</code>, <code>always</code>, <code>none</code>, or <code>display_only</code></td>
+ <td><code>elm_gengrid_select_mode_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code></td>
+ <td><code>elm_gengrid_horizontal_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>item_size_w</code> or <code>item_size_h</code></td>
+ <td><code>integer</code></td>
+ <td><code>elm_gengrid_item_size_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>multi_select</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_gengrid_multi_select_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>scrollbar_h</code> or <code>scrollbar_v</code></td>
+ <td><code>auto</code>, <code>true</code>, or <code>false</code></td>
+ <td><code>elm_scroller_policy_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Gengriditem in Mobile Applications</h3>
+
+<p>A gengrid item component can be placed as a child of the gengrid component. Each item can have a label and image, depending on the style. The following attributes are used for the gengrid item component.</p>
+
+<p align="center" class="Table"><strong>Table: Gengrid item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_gengrid_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_gengrid_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_item_color_class_color_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_gengrid_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>src</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_gengrid_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>selected</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_gengrid_item_selected_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disabled</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_item_disabled_set()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Genlist (<img alt="Genlist" src="../images/component_attributes_genlist_icon.png"/>)</h3>
+
+<p>A genlist component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_genlist_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_genlist_wn.htm">wearable</a> applications) displays a scrollable list of items.</p>
+
+<pre class="prettyprint">
+&lt;genlist scrollbar_v="auto" align_v="fill" visible="true" weight_v="1" pack_h="244" weight_h="1"
+         homogeneous="false" scrollbar_h="auto" align_h="fill" select_mode="default" pack_w="668"
+         disable="false" pack_x="134" pack_y="204" style="solid/default" id="genlist1"&gt;
+    &lt;genlistitem sub_text="Sub Text" end_image_path="" item_type="none" image_path="" style="default"
+                 id="genlistitem1" text="List item" end_standard_icon="" selected="false"
+                 standard_icon=""&gt;&lt;/genlistitem&gt;
+    &lt;genlistitem sub_text="Sub Text" end_image_path="" item_type="none" image_path="" style="default"
+                 id="genlistitem2" text="List item" end_standard_icon="" selected="false"
+                 standard_icon=""&gt;&lt;/genlistitem&gt;
+&lt;/genlist&gt;
+</pre>
+
+<p>The following attributes are used for the genlist component.</p>
+
+<p align="center" class="Table"><strong>Table: Genlist attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_genlist_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>select_mode</code></td>
+ <td><code>default</code>, <code>always</code>, <code>none</code>, or <code>display_only</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_genlist_select_mode_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>homogeneous</code></td>
+ <td><code>true</code> or <code>false</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_genlist_homogeneous_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>scrollbar_h</code> or <code>scrollbar_v</code></td>
+ <td><code>auto</code>, <code>true</code>, or <code>false</code></td>
+ <td><code>elm_scroller_policy_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Genlistitem</h3>
+
+<p>A genlist item component can be placed as a child of the genlist component. Each item can have a label and image, depending on the style. The following attributes are used for the genlist item component.</p>
+
+<p align="center" class="Table"><strong>Table: Genlist item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>end_image_path</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>end_standard_icon</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>image_path</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_item_color_class_color_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>selected</code></td>
+ <td><code>true</code> or <code>false</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_genlist_item_selected_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>standard_icon</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>sub_text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_genlist_item_append()</code></td>
+ </tr>
+</tbody>
+</table>
+
+
+<h3>Hoversel (<img alt="Image" src="../images/component_attributes_hoversel_icon.png"/>) in Mobile Applications</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_hoversel_mn.htm">hoversel</a> component is a button that pops up a list of items.</p>
+
+<pre class="prettyprint">
+&lt;hoversel align_h="fill" align_v="fill" visible="true" disable="false" weight_v="1"
+          pack_h="41" weight_h="1" pack_w="69" pack_x="308" pack_y="341"
+          id="hoversel1" text="Hoversel"&gt;
+    &lt;hoverselitem id="hoverselitem1" text="Hoverselitem"&gt;&lt;/hoverselitem&gt;
+    &lt;hoverselitem id="hoverselitem2" text="Hoverselitem"&gt;&lt;/hoverselitem&gt;
+&lt;/hoversel&gt;
+</pre>
+
+<p>The following attributes are used for the hoversel component.</p>
+
+<p align="center" class="Table"><strong>Table: Hoversel attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_hoversel_add()</code></td>
+ </tr>
+  <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_object_text_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+
+<h3>Hoverselitem in Mobile Applications</h3>
+
+<p>A hoversel item component can be placed as a child of the hoversel component. Each item can have a text. The following attributes are used for the hoversel item component.</p>
+
+<p align="center" class="Table"><strong>Table: Hoversel item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_hoversel_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_hoversel_item_append()</code></td>
+ </tr>
+</tbody>
+</table>
+
+<h3>Image (<img alt="Image" src="../images/component_attributes_image_icon.png"/>)</h3>
+
+<p>An image component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_image_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_image_wn.htm">wearable</a> applications) loads and displays an image from a file or memory.</p>
+
+<pre class="prettyprint">
+&lt;image resizable_up="true" resizable_down="true" align_v="fill" visible="true" src="" weight_v="1"
+       pack_h="41" weight_h="1" align_h="fill" aspect_fixed="false" pack_w="69" pack_x="308" pack_y="341"
+       no_scale="false" id="image1" fill_outside="false"&gt;
+&lt;/image&gt;
+</pre>
+
+<p>The following attributes are used for the image component.</p>
+
+<p align="center" class="Table"><strong>Table: Image attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_image_add()</code></td>
+ </tr>
+  <tr>
+ <td><code>src</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_image_file_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>aspect_fixed</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_image_aspect_fixed_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>fill_outside</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_image_fill_outside_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>resizable_up</code> or <code>resizable_down</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_image_resizable_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>no_scale</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_image_no_scale_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Index (<img alt="Index" src="../images/component_attributes_index_icon.png"/>)</h3>
+
+<p>An index component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_index_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_index_wn.htm">wearable</a> applications) provides an index for quick access to another group of UI items. The index can contain a small number of items.</p>
+
+<pre class="prettyprint">
+&lt;index indicator="true" align_v="fill" visible="true" weight_v="1" pack_h="122" weight_h="1" align_h="fill"
+       pack_w="276" disable="false" pack_x="368" pack_y="385" id="index1" autohide="false"&gt;
+    &lt;indexitem id="indexitem1" text="item"&gt;&lt;/indexitem&gt;
+    &lt;indexitem id="indexitem2" text="item"&gt;&lt;/indexitem&gt;
+&lt;/index&gt;
+</pre>
+
+<p>The following attributes are used for the index component.</p>
+
+<p align="center" class="Table"><strong>Table: Index attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_index_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>autohide</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_index_autohide_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>indicator</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_index_indicator_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Indexitem</h3>
+
+<p>An index item component can be placed as a child of the index component. Each item can have a label. The following attributes are used for the index item component.</p>
+
+<p align="center" class="Table"><strong>Table: Index item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_index_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_index_item_append()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Label (<img alt="Label" src="../images/component_attributes_label_icon.png"/>)</h3>
+
+<p>A label component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_label_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_label_wn.htm">wearable</a> applications) displays text with a simple HTML-like markup.</p>
+
+<pre class="prettyprint">
+&lt;label align_v="fill" visible="true" weight_v="1" line_wrap="none" pack_h="24" weight_h="1"
+       ellipsis="false" align_h="fill" wrap_width="0" pack_w="139" disable="false"
+       pack_x="282" pack_y="415" id="label1" text="Label"&gt;
+&lt;/label&gt;
+</pre>
+
+<p>The following attributes are used for the label component.</p>
+
+<p align="center" class="Table"><strong>Table: Label attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_label_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>ellipsis</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_label_ellipsis_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>wrap_width</code></td>
+ <td>0 ~</td>
+ <td><code>elm_label_wrap_width_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>line_wrap</code></td>
+ <td><code>none</code>, <code>char</code>, <code>word</code>, or <code>mixed</code></td>
+ <td><code>elm_label_line_wrap_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_object_text_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Layout (<img alt="Layout" src="../images/component_attributes_layout_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/container_layout_n.htm">layout</a> is a container component that takes a standard Edje design file and wraps it very thinly in a UI component.</p>
+
+<pre class="prettyprint">
+&lt;layout align_v="fill" visible="true" src="edc.edj" weight_v="1" pack_h="122" weight_h="1" align_h="fill"
+        pack_w="210" disable="false" pack_x="329" pack_y="398" id="layout1" group="main"&gt;
+&lt;/layout&gt;
+</pre>
+
+<p>The following attributes are used for the layout component.</p>
+
+<p align="center" class="Table"><strong>Table: Layout attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_layout_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>src</code> or <code>group</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_layout_file_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>List (<img alt="List" src="../images/component_attributes_list_icon.png"/>)</h3>
+
+<p>A list component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_list_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_list_wn.htm">wearable</a> applications) is a very simple list for managing a small number of items. If you need to manage a lot of items, use the genlist component instead.</p>
+
+<pre class="prettyprint">
+&lt;list scrollbar_v="auto" align_v="fill" visible="true" weight_v="1" pack_h="244" weight_h="1" mode="scroll"
+      scrollbar_h="auto" align_h="fill" select_mode="default" multi_select="false" pack_w="667"
+      disable="false" pack_x="307" pack_y="272" id="list1"&gt;
+    &lt;listitem id="listitem1" text="List item" selected="false"&gt;&lt;/listitem&gt;
+    &lt;listitem id="listitem2" text="List item" selected="false"&gt;&lt;/listitem&gt;
+&lt;/list&gt;
+</pre>
+
+<p>The following attributes are used for the list component.</p>
+
+<p align="center" class="Table"><strong>Table: List attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_list_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code></td>
+ <td><code>elm_list_horizontal_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>select_mode</code></td>
+ <td><code>default</code>, <code>always</code>, <code>none</code>, or <code>display_only</code></td>
+ <td><code>elm_list_select_mode_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>multi_select</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_list_multi_select_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>mode</code></td>
+ <td><code>compress</code>, <code>scroll</code>, <code>limit</code>, or <code>expand</code></td>
+ <td><code>elm_list_mode_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>scrollbar_h</code> or <code>scrollbar_v</code></td>
+ <td><code>auto</code>, <code>true</code>, or <code>false</code></td>
+ <td><code>elm_scroller_policy_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Listitem</h3>
+
+<p>A list item component can be placed as a child of the list component. Each item can have a label. The following attributes are used for the list item component.</p>
+
+<p align="center" class="Table"><strong>Table: List item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_list_item_append()</code></td>
+ </tr>
+  <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_list_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>selected</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_list_item_selected_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Map (<img alt="map" src="../images/component_attributes_map_icon.png"/>)</h3>
+
+<p>A map component can display a geographic map. The default map data is provided by the <strong>OpenStreetMap</strong> project.</p>
+
+<pre class="prettyprint">
+&lt;map align_v="fill" visible="true" weight_v="1" pack_h="244" latitude="0" zoom_level="15" weight_h="1"
+     align_h="fill" pack_w="417" pack_x="221" pack_y="318" id="map1" longitude="0"&gt;
+&lt;/map&gt;
+</pre>
+
+<p>The following attributes are used for the map component.</p>
+
+<p align="center" class="Table"><strong>Table: Map attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_map_add()</code></td>
+ </tr>
+  <tr>
+ <td><code>zoom_level</code></td>
+ <td><code>integer (0~)</code></td>
+ <td><code>elm_map_zoom_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>longitude</code></td>
+ <td><code>double</code></td>
+ <td><code>elm_map_region_show()</code></td>
+ </tr>
+  <tr>
+ <td><code>latitude</code></td>
+ <td><code>double</code></td>
+ <td><code>elm_map_region_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Multibuttonentry (<img alt="Multibutton entry" src="../images/component_attributes_multibuttonentry_icon.png"/>) in Mobile Applications</h3>
+
+<p>A multibutton entry component allows the user to enter text so that the text is divided into chunks and managed as a set of buttons.</p>
+
+<pre class="prettyprint">
+&lt;multibuttonentry align_v="fill" visible="true" weight_v="0" editable="true" pack_h="40" weight_h="0"
+                  align_h="fill" expanded="false" pack_w="210" disable="false" pack_x="329"
+                  pack_y="360" id="multibuttonentry1"&gt;
+    &lt;multibuttonentryitem id="multibuttonentryitem1" text="item"/&gt;
+&lt;/multibuttonentry&gt;
+</pre>
+
+<p>The following attributes are used for the multibutton entry component.</p>
+
+<p align="center" class="Table"><strong>Table: Multibutton entry attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_multibuttonentry_add()</code></td>
+ </tr>
+  <tr>
+ <td><code>editable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_multibuttonentry_editable_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>expanded</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_multibuttonentry_expanded_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Multibuttonentryitem in Mobile Applications</h3>
+
+<p>A multibutton entry item component can be placed as a child of the multibutton entry component. The following attributes are used for the multibutton entry item component.</p>
+
+<p align="center" class="Table"><strong>Table: Multibutton entry item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_multibuttonentry_item_append()</code></td>
+ </tr>
+  <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_multibuttonentry_item_append()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Popup</h3>
+
+<p>A popup component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_popup_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_popup_wn.htm">wearable</a> applications) shows a pop-up area that contains a title, content, and action area. The following attributes are used for the popup component.</p>
+
+<p align="center" class="Table"><strong>Table: Popup attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_popup_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>title</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_object_part_text_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>height</code></td>
+ <td><code>integer</code></td>
+ <td><code>evas_object_size_hint_min_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>timeout</code></td>
+ <td><code>double</code></td>
+ <td><code>elm_popup_timeout_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Progressbar (<img alt="Progressbar" src="../images/component_attributes_progressbar_icon.png"/>)</h3>
+
+<p>A progressbar component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_progressbar_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_progressbar_wn.htm">wearable</a> applications) is used to display the progress status of a given job.</p>
+
+<pre class="prettyprint">
+&lt;progressbar align_v="fill" visible="true" weight_v="1" pack_h="24" weight_h="1" align_h="fill" span_size="0"
+             pack_w="210" disable="false" pack_x="579" pack_y="432" style="default" id="progressbar1"
+             inverted="false" value="0" direction="horizontal"&gt;
+&lt;/progressbar&gt;
+</pre>
+
+<p>The following attributes are used for the progressbar component.</p>
+
+<p align="center" class="Table"><strong>Table: Progressbar attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_progressbar_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>span_size</code></td>
+ <td>0 ~</td>
+ <td><code>elm_progressbar_span_size_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>value</code></td>
+ <td>0 ~ 1</td>
+ <td><code>elm_progressbar_value_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>inverted</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_progressbar_inverted_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>min</code> or <code>max</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>eext_circle_object_value_min_max_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Radio (<img alt="Radio" src="../images/component_attributes_radio_icon.png"/>)</h3>
+
+<p>A radio component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_radio_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_radio_wn.htm">wearable</a> applications) can display 1 or more options, while the user can only select one of them. The UI component is composed of an indicator (selected or unselected), an optional icon, and an optional label. Even though it is usually grouped with 2 or more other radio components, it can also be used alone.</p>
+
+<pre class="prettyprint">
+&lt;radio align_v="fill" visible="true" weight_v="1" pack_h="49" weight_h="1" align_h="fill" pack_w="208"
+       disable="false" pack_x="318" pack_y="478" id="radio1" text="Radio" state_value="0" value="0"&gt;
+&lt;/radio&gt;
+</pre>
+
+<p>The following attributes are used for the radio component.</p>
+
+<p align="center" class="Table"><strong>Table: Radio attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_radio_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>state_value</code></td>
+ <td><code>#number</code></td>
+ <td><code>elm_radio_state_value_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>value</code></td>
+ <td><code>#number</code></td>
+ <td><code>elm_radio_value_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_text_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Slider (<img alt="Slider" src="../images/component_attributes_slider_icon.png"/>)</h3>
+
+<p>A slider component (in <a href="../../../org.tizen.guides/html/native/ui/efl/component_slider_mn.htm">mobile</a> and <a href="../../../org.tizen.guides/html/native/ui/efl/component_slider_wn.htm">wearable</a> applications) is a draggable bar that is used to select a value from a range of values.</p>
+
+<pre class="prettyprint">
+&lt;slider indicator="false" align_v="fill" visible="true" max="1.0" weight_v="1" pack_h="25" indicator_format=""
+        weight_h="1" align_h="fill" min="0.0" pack_w="276" disable="false" pack_x="318" pack_y="424"
+        style="default" step="0.05" id="slider1" inverted="false" value="0.0" direction="horizontal"&gt;
+&lt;/slider&gt;
+</pre>
+
+<p>The following attributes are used for slider component.</p>
+
+<p align="center" class="Table"><strong>Table: Slider attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_slider_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>indicator</code></td>
+ <td><code>true</code> or <code>false</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_slider_indicator_show_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>min</code></td>
+ <td>0 ~</td>
+ <td><code>elm_slider_min_max_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>step</code></td>
+ <td>0 ~</td>
+ <td><code>elm_slider_step_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>max</code></td>
+ <td>0 ~</td>
+ <td><code>elm_slider_min_max_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>value</code></td>
+ <td>0 ~</td>
+ <td><code>elm_slider_value_set()</code></td>
+ </tr>
+ <tr>
+  <td><code>inverted</code></td>
+ <td><code>true</code> or <code>false</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_slider_inverted_set()</code></td>
+ </tr>
+ <tr>
+  <td><code>indicator_format</code></td>
+ <td><code>#string</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_slider_indicator_format_set()</code></td>
+ </tr>
+ <tr>
+  <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_slider_horizontal_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Spinner (<img alt="Spinner" src="../images/component_attributes_spinner_icon.png"/>)</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_spinner_mn.htm">spinner</a> component enables the user to increase or decrease a numeric value by using arrow buttons. <strong>(This component is not supported in wearable circle applications.)</strong></p>
+
+<pre class="prettyprint">
+&lt;spinner align_v="fill" visible="true" max="100" weight_v="1" editable="true" pack_h="123" weight_h="1"
+         align_h="fill" min="0" pack_w="210" disable="false" pack_x="279" pack_y="377"
+         style="horizontal" step="1" id="spinner1"&gt;
+&lt;/spinner&gt;
+</pre>
+
+<p>The following attributes are used for the spinner component.</p>
+
+<p align="center" class="Table"><strong>Table: Spinner attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_spinner_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>editable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_spinner_editable_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>step</code></td>
+ <td>0 ~</td>
+ <td><code>elm_spinner_step_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>min</code></td>
+ <td>0 ~</td>
+ <td><code>elm_spinner_min_max_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>max</code></td>
+ <td>0 ~</td>
+ <td><code>elm_spinner_min_max_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>See the <a href="#supported_properties">supported properties</a> for each profile and version</td>
+ <td><code>elm_object_style_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td><code>#000000 ~ #ffffff</code>
+ <p>See the <a href="#supported_properties">supported properties</a> for each profile and version.</p></td>
+ <td><code>elm_object_color_class_color_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+
+<h3>Toolbar (<img alt="Toolbar" src="../images/component_attributes_toolbar_icon.png"/>) in Mobile Applications</h3>
+
+<p>A <a href="../../../org.tizen.guides/html/native/ui/efl/component_toolbar_mn.htm">toolbar</a> component is a small scrollable list of items. It can also show a menu when an item is selected. Only one item can be selected at a time.</p>
+
+<pre class="prettyprint">
+&lt;toolbar shrink_mode="none" align_v="fill" visible="true" weight_v="0"
+         pack_h="41" weight_h="0" homogeneous="true" align_h="fill"
+         select_mode="default" pack_w="668" pack_x="113" pack_y="190"
+         icon_size="32" style="default" id="toolbar1"
+         transverse_expand="false" direction="horizontal"&gt;
+    &lt;toolbaritem src="" disable="false" id="toolbaritem1" text="item"
+                 selected="false"/&gt;
+    &lt;toolbaritem src="" disable="false" id="toolbaritem2" text="item"
+                 selected="false"/&gt;
+&lt;/toolbar&gt;
+</pre>
+
+<p>The following attributes are used for the toolbar component.</p>
+
+<p align="center" class="Table"><strong>Table: Toolbar attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_toolbar_add()</code></td>
+ </tr>
+ <tr>
+ <td><code>homogeneous</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_toolbar_homogeneous_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>select_mode</code></td>
+ <td><code>default</code>, <code>always</code>, <code>none</code>, or <code>display_only</code></td>
+ <td><code>elm_toolbar_select_mode_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>icon_size</code></td>
+ <td><code>0 ~</code></td>
+ <td><code>elm_toolbar_icon_size_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>direction</code></td>
+ <td><code>horizontal</code> or <code>vertical</code></td>
+ <td><code>elm_toolbar_horizontal_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>shrink_mode</code></td>
+ <td><code>none</code>, <code>hide</code>, <code>scroll</code>, <code>menu</code>, or <code>expand</code></td>
+ <td><code>elm_toolbar_shrink_mode_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>transverse_expand</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_toolbar_transverse_expanded_set()</code></td>
+ </tr>
+  <tr>
+ <td><code>visible</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>evas_object_show()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3>Toolbaritem in Mobile Applications</h3>
+
+<p>A toolbar item component can be placed as a child of the toolbar component. Each item can have a label and image. The following attributes are used for the toolbar item component.</p>
+
+<p align="center" class="Table"><strong>Table: Toolbar item attributes</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Attribute</th>
+ <th>Value</th>
+ <th>Function</th>
+ </tr>
+ <tr>
+ <td><code>id</code></td>
+ <td>Automatically incrementing and editable. Duplicates are not allowed.</td>
+ <td><code>elm_toolbar_item_append()</code></td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_object_item_disabled_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_toolbar_item_append()</code></td>
+ </tr>
+  <tr>
+ <td><code>src</code></td>
+ <td><code>#string</code></td>
+ <td><code>elm_toolbar_item_icon_set()</code></td>
+ </tr>
+ <tr>
+ <td><code>selected</code></td>
+ <td><code>true</code> or <code>false</code></td>
+ <td><code>elm_toolbar_item_selected_set()</code></td>
+ </tr>
+ </tbody>
+</table>
+
+<h3 id="supported_properties">Properties Supported for Each Component</h3>
+<p>Some properties are supported only in specific profiles. The following table lists the UI components with attributes that only apply to specific profiles.</p>
+
+<p align="center" class="Table"><strong>Table: Properties supported in specific profiles</strong></p>
+<table>
+<tbody>
+<tr>
+ <th>Component</th>
+ <th>Attribute</th>
+ <th>Mobile 2.3/2.3.1</th>
+ <th>Mobile 2.4</th>
+ <th>Mobile 3.0</th>
+ <th>Wearable square 2.3.1</th>
+ <th>Wearable circle 2.3.1/2.3.2</th>
+ <th>Wearable circle 3.0</th>
+</tr>
+ <tr>
+ <td rowspan="4">Panel</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>orient</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>hidden</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td rowspan="5">Panes</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>direction</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>fixed</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>right_size</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+<td rowspan="9">Scroller</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>content_min_w</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>content_min_h</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>propagate_events</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>scrollbar_h</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>scrollbar_v</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td rowspan="6">Button</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+   <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td rowspan="6">Calendar</td>
+ <td><code>id</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>disable</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>visible</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>min_year</code> or <code>max_year</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>select_mode</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>interval</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td rowspan="6">Check</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>state</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td><code>text</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td rowspan="2">Colorselector</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="5">Ctxpopup</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>direction</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td rowspan="5">Datetime</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="11">Entry</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>scroll</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>single_line</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+ <tr>
+ <td><code>password</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td><code>editable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td><code>context_menu</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>file_text_format</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td><code>src</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td rowspan="3">Flipselector</td>
+ <td><code>id</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>visible</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td rowspan="2">Flipselector item</td>
+ <td><code>id</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>text</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="9">Gengrid</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>style</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>select_mode</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>direction</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>item_size_w</code> or <code>item_size_h</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>multi_select</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>scrollbar_h</code> or <code>scrollbar_v</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="7">Gengrid item</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>src</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>selected</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disabled</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="7">Genlist</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+   <tr>
+ <td><code>select_mode</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>style</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>homogeneous</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>scrollbar_h</code> or <code>scrollbar_v</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="10">Genlist item</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+   <tr>
+ <td><code>end_image_path</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>end_standard_icon</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>image_path</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+     <tr>
+ <td><code>selected</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>standard_icon</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>sub_text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td rowspan="4">Hoversel</td>
+ <td><code>id</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>text</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>disable</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>visible</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="2">Hoversel item</td>
+ <td><code>id</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>text</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="2">Index item</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+   <tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+<tr>
+ <td rowspan="9">List</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+   <tr>
+ <td><code>direction</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>select_mode</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>multi_select</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>mode</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+     <tr>
+ <td><code>scrollbar_h</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+     <tr>
+ <td><code>scrollbar_v</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td rowspan="5">Multibutton entry</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>editable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>expanded</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ <tr>
+ <td rowspan="2">Multibutton entry item</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+   <tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td rowspan="8">Progressbar</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>span_size</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>value</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>inverted</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>style</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>min</code> or <code>max</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+<tr>
+ <td rowspan="8">Popup</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>title</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>height</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>timeout</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td rowspan="6">Radio</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>state_value</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>value</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>text</code></td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+  <tr>
+ <td rowspan="13">Slider</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>indicator</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>min</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>step</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>max</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+    <tr>
+ <td><code>value</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+     <tr>
+ <td><code>inverted</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>indicator_format</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>direction</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+     <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ </tr>
+     <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td rowspan="9">Spinner</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>editable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>step</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>min</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>max</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>style</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>colors</code></td>
+ <td>No</td>
+ <td>No</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td rowspan="8">Toolbar</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>homogeneous</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>select_mode</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>icon_size</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>direction</code></td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>shrink_mode</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>transverse_expand</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>visible</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+  <tr>
+ <td rowspan="5">Toolbar item</td>
+ <td><code>id</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>disable</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>text</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+     <tr>
+ <td><code>src</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+    <tr>
+ <td><code>selected</code></td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>Yes</td>
+ <td>No</td>
+ <td>No</td>
+ <td>No</td>
+ </tr>
+ </tbody></table>
+
+<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="../scripts/showhide.js"></script>
+</div></div></div>
+
+<a class="top sms" href="#"><img src="../images/btn_top.gif" alt="Go to top" /></a>
+
+<div id="footer">
+<p class="footer">Except as noted, this content - excluding the Code Examples - is licensed under <a href="http://creativecommons.org/licenses/by/3.0/legalcode" target="_blank">Creative Commons Attribution 3.0</a> and all of the Code Examples contained herein are licensed under <a href="https://www.tizen.org/bsd-3-clause-license" target="_blank">BSD-3-Clause</a>.<br/>For details, see the <a href="https://www.tizen.org/content-license" target="_blank">Content License</a>.</p>
+</div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25976949-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body>
+</html>
