@@ -103,7 +103,7 @@
 				<p valign="center" class="Table">
 					<h4>
 						KPI 조회&nbsp; <img alt="KPI 조회" src="kpi_go.png"
-							onclick="window.location.href='http://localhost:8080/kpianalysis/index2.jsp'"/>
+							onclick="window.location.href='http://localhost:8080/kpianalysis/indexWithKpi.jsp'"/>
 					</h4>
 				</p>
 				<!-- <input type="button" id="hw" value="Hello world" /> -->

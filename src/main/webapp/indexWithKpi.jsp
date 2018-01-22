@@ -1,3 +1,5 @@
+<%@page import="dep.kpis.Performance"%>
+<%@page import="dep.kpis.PerformanceAPI"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.data.kpianalysis.controller.*"%>
@@ -52,9 +54,7 @@
 						<tr>
 							<td><b>성능가동율(%)</b></td>
 							<td id="kpi1" bgcolor="#FFFF00">
-								<%
-								    out.print(MyClass.function1());
-								%><code> </code>
+							<code></code>
 							</td>
 						</tr>
 						<tr>
@@ -74,7 +74,9 @@
 						</tr>
 						<tr>
 							<td><b>성능가동율(%)</b></td>
-							<td id="kpi2" bgcolor="#FFFF00"><code></code></td>
+							<td id="kpi2" bgcolor="#FFFF00">
+							<code></code>
+							</td>
 						</tr>
 						<tr>
 							<td><code>불량율(%)</code></td>
@@ -93,7 +95,9 @@
 						</tr>
 						<tr>
 							<td><b>성능가동율(%)</b></td>
-							<td id="kpi3" bgcolor="#FFFF00"><code></code></td>
+							<td id="kpi3" bgcolor="#FFFF00">
+							<code></code>
+							</td>
 						</tr>
 						<tr>
 							<td><code>불량율(%)</code></td>
