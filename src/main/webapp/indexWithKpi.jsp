@@ -1,5 +1,3 @@
-<%@page import="dep.kpis.Performance"%>
-<%@page import="dep.kpis.PerformanceAPI"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.data.kpianalysis.controller.*"%>
